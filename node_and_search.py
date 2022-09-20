@@ -35,12 +35,24 @@ class Node:
         return successors
 
     def pretty_print_solution(self, verbose=False):
+        solution = []
         if verbose == False:
-            #print("action:", self.action)
             print('solution found')
+            solution.append(self.action)
+            while (self.parent.action != None):
+                solution.append(self.parent.action)
+                self = self.parent
         else:
-            MissionariesAndCannibals.pretty_print(self.state)
-            print("action:", self.action)
+            print('solution found')
+            solution.append(['Done!', self.state])
+            while (self.parent.action != None):
+                solution.append([self.action, self.state])
+                self = self.parent
+        
+        for i in reversed(solution):
+            i[1].pretty_print()
+            print(i[0])
+
              
 class SearchAlgorithm:
     '''

@@ -4,6 +4,7 @@ Define problem and start execution of search problems
 Author: Tony Lindgren
 '''
 
+from tabnanny import verbose
 from missionaries_and_cannibals import MissionariesAndCannibals 
 from node_and_search import SearchAlgorithm
 from node_and_search import Node
@@ -18,8 +19,8 @@ def main():
     print('Start state: ')
     mc.pretty_print()
     solution = sa.bfs()
-    solution.pretty_print_solution()
-    #print(solution.state.check_goal())
+    solution.pretty_print_solution(verbose=True)
+    print('solution is: ', solution.state.check_goal())
 
 if __name__ == "__main__":
     main()
