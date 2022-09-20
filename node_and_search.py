@@ -6,6 +6,8 @@ Author: Tony Lindgren
 
 import queue
 
+from missionaries_and_cannibals import MissionariesAndCannibals
+
 class Node:
     '''
     This class defines nodes in search trees. It keep track of: 
@@ -30,14 +32,23 @@ class Node:
             if child != None:                                
                 childNode = Node(child, self.cost + 1, self, action)              
                 successors.put(childNode)
-        return successors  
+        return successors
+
+    def pretty_print_solution(self, verbose=False):
+        if verbose == False:
+            #print("action:", self.action)
+            print('solution found')
+        else:
+            MissionariesAndCannibals.pretty_print(self.state)
+            print("action:", self.action)
              
 class SearchAlgorithm:
     '''
     Class for search algorithms, call it with a defined problem 
     '''
     def __init__(self, problem):
-        self.start = Node(problem)        
+        self.start = Node(problem)
+        self.visited = []
         
     def bfs(self):
         frontier = queue.Queue()
@@ -46,12 +57,23 @@ class SearchAlgorithm:
         while not stop:
             if frontier.empty():
                 return None
-            curr_node = frontier.get()
+
+            if self.visited == []:
+                curr_node = frontier.get()
+                self.visited.append(curr_node.state)
+            else:
+                #if curr_node.state not in self.visited:
+                #curr_node = frontier.get()
+                if (frontier.get().state) not in self.visited:
+                    curr_node = frontier.get()
+                    self.visited.append(curr_node.state)
+                else:
+                    self.counter += 1
+                    print('whoops repeat')
             if curr_node.goal_state():
-                stop = True    
+                stop = True
                 return curr_node        
                         
             successor = curr_node.successor() 
             while not successor.empty():
-                frontier.put(successor.get())
-                    
+                frontier.put(successor.get())                    

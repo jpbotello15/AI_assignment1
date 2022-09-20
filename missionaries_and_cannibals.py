@@ -124,7 +124,7 @@ class MissionariesAndCannibals:
                 self.state = [left_bank, boat, right_bank]
                 return True   
 
-    def cm(self):     
+    def mc(self):     
         left_bank = self.state[0]
         boat = self.state[1] 
         right_bank = self.state[2]     
