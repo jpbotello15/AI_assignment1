@@ -33,6 +33,15 @@ class Node:
                 childNode = Node(child, self.cost + 1, self, action)              
                 successors.put(childNode)
         return successors
+    
+    def depth_successor(self):
+        successors = queue.LifoQueue()
+        for action in self.state.action:                     
+            child = self.state.move(action)      
+            if child != None:                                
+                childNode = Node(child, self.cost + 1, self, action)              
+                successors.put(childNode)
+        return successors
 
     def pretty_print_solution(self, verbose=False):
         solution = []
@@ -67,7 +76,7 @@ class SearchAlgorithm:
         self.visited = []
         self.counter = 0
         
-    def bfs(self, verbose=False, statistics=False):
+    def bfs(self, verbose=False, statistics=False, FileSave=False):
         time_start = process_time()
         frontier = queue.Queue()
         frontier.put(self.start)
@@ -98,8 +107,68 @@ class SearchAlgorithm:
                     print("Number of nodes explored:", self.counter)
                     print("Cost of solution:", curr_node.depth)
                     print("Estimated effective branching factor:", self.counter**(1/curr_node.depth))
+                if FileSave == True:
+                    file = open("results.txt", "w")
+                    write=file.write
+                    write("Cannibals and Missionaries. Solution for BFS" + "\n")
+                    write("Elapsed time (s):" + str(time_stop - time_start) + "\n")
+                    write("Solution found at depth:" + str(curr_node.depth) + "\n")
+                    write("Number of nodes explored:" + str(self.counter) + "\n")
+                    write("Cost of solution:" + str(curr_node.depth) + "\n")
+                    write("Estimated effective branching factor:" + str(self.counter**(1/curr_node.depth)) + "\n \n")
+                    file.close()
                 return curr_node        
                         
             successor = curr_node.successor() 
             while not successor.empty():
-                frontier.put(successor.get())                   
+                frontier.put(successor.get())  
+
+    def dfs(self, verbose=False, statistics=False, FileSave=False):
+        time_start = process_time()
+        frontier = queue.Queue()
+        frontier.put(self.start)
+        stop = False
+        while not stop:
+            if frontier.empty():
+                return None
+
+            if self.visited == []:
+                curr_node = frontier.get()
+                self.visited.append(curr_node.state)
+            else:
+                #if curr_node.state not in self.visited:
+                #curr_node = frontier.get()
+                if (frontier.get().state) not in self.visited:
+                    curr_node = frontier.get()
+                    self.visited.append(curr_node.state)
+                    self.counter += 1
+                else:
+                    print('whoops repeat')
+            if curr_node.goal_state():
+                stop = True
+                time_stop = process_time()
+                if statistics == True:
+                    print("Cannibals and Missionaries. Solution found")
+                    print("Elapsed time (s):", time_stop - time_start)
+                    print("Solution found at depth:", curr_node.depth)
+                    print("Number of nodes explored:", self.counter)
+                    print("Cost of solution:", curr_node.depth)
+                    print("Estimated effective branching factor:", self.counter**(1/curr_node.depth))
+                    
+                    if FileSave == True:
+                        file = open("results.txt", "a")
+                        write=file.write
+                        write("Cannibals and Missionaries. Solution for DFS"  + "\n")
+                        write("Elapsed time (s):" + str(time_stop - time_start) + "\n")
+                        write("Solution found at depth:" + str(curr_node.depth) + "\n")
+                        write("Number of nodes explored:" + str(self.counter) + "\n")
+                        write("Cost of solution:" + str(curr_node.depth) + "\n")
+                        write("Estimated effective branching factor:" + str(self.counter**(1/curr_node.depth)) + "\n \n")
+                        file.close()
+                return curr_node        
+                        
+            successor = curr_node.depth_successor() 
+            while not successor.empty():
+                frontier.put(successor.get())  
+
+    
