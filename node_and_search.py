@@ -5,7 +5,7 @@ Author: Tony Lindgren
 '''
 
 import queue
-
+from time import process_time
 from missionaries_and_cannibals import MissionariesAndCannibals
 
 class Node:
@@ -37,21 +37,25 @@ class Node:
     def pretty_print_solution(self, verbose=False):
         solution = []
         if verbose == False:
-            print('solution found')
+            print('Here is the list of moves:')
             solution.append(self.action)
             while (self.parent.action != None):
                 solution.append(self.parent.action)
                 self = self.parent
+            
+            for i in reversed(solution):
+                print(i)
+
         else:
-            print('solution found')
+            print('Here is the list of moves and states:')
             solution.append(['Done!', self.state])
             while (self.parent.action != None):
                 solution.append([self.action, self.state])
                 self = self.parent
         
-        for i in reversed(solution):
-            i[1].pretty_print()
-            print(i[0])
+            for i in reversed(solution):
+                i[1].pretty_print()
+                print(i[0])
 
              
 class SearchAlgorithm:
@@ -61,8 +65,10 @@ class SearchAlgorithm:
     def __init__(self, problem):
         self.start = Node(problem)
         self.visited = []
+        self.counter = 0
         
-    def bfs(self):
+    def bfs(self, verbose=False, statistics=False):
+        time_start = process_time()
         frontier = queue.Queue()
         frontier.put(self.start)
         stop = False
@@ -79,13 +85,21 @@ class SearchAlgorithm:
                 if (frontier.get().state) not in self.visited:
                     curr_node = frontier.get()
                     self.visited.append(curr_node.state)
-                else:
                     self.counter += 1
+                else:
                     print('whoops repeat')
             if curr_node.goal_state():
                 stop = True
+                time_stop = process_time()
+                if statistics == True:
+                    print("Cannibals and Missionaries. Solution found")
+                    print("Elapsed time (s):", time_stop - time_start)
+                    print("Solution found at depth:", curr_node.depth)
+                    print("Number of nodes explored:", self.counter)
+                    print("Cost of solution:", curr_node.depth)
+                    print("Estimated effective branching factor:", self.counter**(1/curr_node.depth))
                 return curr_node        
                         
             successor = curr_node.successor() 
             while not successor.empty():
-                frontier.put(successor.get())                    
+                frontier.put(successor.get())                   

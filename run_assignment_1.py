@@ -15,12 +15,9 @@ goal_state = [[3, 3], 'l', [0, 0]]
 def main():
     mc = MissionariesAndCannibals(init_state, goal_state)
     sa = SearchAlgorithm(mc)
-    print('BFS')
-    print('Start state: ')
-    mc.pretty_print()
-    solution = sa.bfs()
+    solution = sa.bfs(statistics=True)
     solution.pretty_print_solution(verbose=True)
-    print('solution is: ', solution.state.check_goal())
+    print('Confirm solution is: ', solution.state.check_goal())
 
 if __name__ == "__main__":
     main()
