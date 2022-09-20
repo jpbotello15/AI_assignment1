@@ -18,7 +18,7 @@ def main():
     mc.pretty_print()
     #goal_node = sa.bfs()
 
-    mc.cc()
+    mc.cm()
 
     mc.pretty_print()
 

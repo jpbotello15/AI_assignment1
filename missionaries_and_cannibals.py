@@ -103,6 +103,53 @@ class MissionariesAndCannibals:
                 self.state = [left_bank, boat, right_bank]
                 return True      
     
+    def c(self):
+        left_bank = self.state[0]
+        boat = self.state[1] 
+        right_bank = self.state[2]     
+        if boat == 'r':  
+            if (left_bank[0] == 0 or left_bank[0] >= left_bank[1] + 1) and right_bank[1] >= 1:
+                right_bank[1] = right_bank[1] - 1
+                boat = 'l'
+                left_bank[1] = left_bank[1] + 1
+                #update our state
+                self.state = [left_bank, boat, right_bank]
+                return True
+        else:
+            if (right_bank[0] == 0 or right_bank[0] >= right_bank[1] + 1) and left_bank[1] >= 1:
+                left_bank[1] = left_bank[1] - 1
+                boat = 'r'
+                right_bank[1] = right_bank[1] + 1
+                #update our state
+                self.state = [left_bank, boat, right_bank]
+                return True   
+
+    def cm(self):     
+        left_bank = self.state[0]
+        boat = self.state[1] 
+        right_bank = self.state[2]     
+        if boat == 'r':  
+            if (right_bank[0] - 1 == 0 or right_bank[1] - 1 == 0 or right_bank[0] >= right_bank[1]) and right_bank[0] >= 1 and right_bank[1] >= 1 and left_bank[0] + 1 >= left_bank[1] + 1:
+                right_bank[1] = right_bank[1] - 1
+                right_bank[0] = right_bank[0] - 1
+                boat = 'l'
+                left_bank[1] = left_bank[1] + 1
+                left_bank[0] = left_bank[0] + 1
+                #update our state
+                self.state = [left_bank, boat, right_bank]
+                return True
+        else:
+            if (left_bank[0] - 1 == 0 or left_bank[1] - 1 == 0 or left_bank[0] >= left_bank[1]) and left_bank[0] >= 1 and left_bank[1] >= 1 and right_bank[0] + 1 >= right_bank[1] + 1:
+                left_bank[1] = left_bank[1] - 1
+                left_bank[0] = left_bank[0] - 1
+                boat = 'r'
+                right_bank[1] = right_bank[1] + 1
+                right_bank[0] = right_bank[0] + 1
+                #update our state
+                self.state = [left_bank, boat, right_bank]
+                return True            
+    
+                
     def pretty_print(self):
         print('----------------------------')
         print(' #miss on left bank: ', self.state[0][0])
