@@ -4,6 +4,13 @@ Solution found at depth:43
 Number of nodes explored:2339
 Cost of solution:43
 Estimated effective branching factor:1.1977041104805097
+
+Cannibals and Missionaries. Solution for BFS without visited check
+Elapsed time (s):1.140625
+Solution found at depth:11
+Number of nodes explored:10445
+Cost of solution:11
+Estimated effective branching factor:2.3192913759845206
  
 
 Cannibals and Missionaries. Solution for DFS
@@ -19,4 +26,10 @@ Solution found at depth:11
 Number of nodes explored:11852
 Cost of solution:11
 Estimated effective branching factor:2.346090142761447
- 
+
+Cannibals and Missionaries. Solution for IDS
+Elapsed time (s):0.828125
+Solution found at depth:33
+Number of nodes explored:7487
+Cost of solution:33
+Estimated effective branching factor:1.3103981390896
