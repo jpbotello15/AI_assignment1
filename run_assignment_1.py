@@ -1,6 +1,5 @@
 '''
 Define problem and start execution of search problems
-
 Author: Tony Lindgren
 '''
 
@@ -15,7 +14,7 @@ goal_state = [[3, 3], 'l', [0, 0]]
 def main():
     mc = MissionariesAndCannibals(init_state, goal_state)
     sa = SearchAlgorithm(mc)
-    solution = sa.dfs(statistics=True, FileSave=True)
+    solution = sa.ids(statistics=True, FileSave=True)
     solution.pretty_print_solution(verbose=True)
     print('Confirm solution is: ', solution.state.check_goal())
 
