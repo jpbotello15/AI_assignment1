@@ -11,12 +11,55 @@ class EightPuzzle:
         self.state = initial_state
         self.goal = goal
         self.action = ['ml','mr','mu','md']
-    
+        self.h1 = 0
+        self.h2 = 0
+            
     def check_goal(self):
         if self.state == self.goal:
             return True
         else:
             return False
+
+    def heuristic1(self):
+        state = self.state
+        goal = self.goal
+        for i in range(0,len(state)):
+            for z in range(0,len(state)):
+                if state[i][z] == goal[i][z]:
+                    self.h1 += 1
+        self.h1 = len(state)**2 - self.h1
+        print ('Heuristic_1: ' +str(self.h1))
+        return self.h1
+
+    def heuristic2(self):
+        state = self.state
+        goal = self.goal
+        h2=self.h2
+        x_goal = 0
+        y_goal = 0
+        number = 0
+        x_value = 0
+        y_value = 0
+        for i in range(0,len(state)):
+            for z in range(0,len(state)):
+                if state[i][z] != goal[i][z]:                        
+                    number = state[i][z]
+                    x_value=i
+                    y_value=z
+                    for x in range(0,len(state)):
+                        for y in range(0,len(state)):
+                            if number == 'e':
+                                number == 'Null'
+                                x_goal=x_value
+                                y_goal=x_value
+                                break
+                            elif goal[x][y] == number:
+                                x_goal=x
+                                y_goal=y
+                h2 = h2 + abs(x_value - x_goal) + abs(y_value - y_goal)
+        print ('Heuristic_2: ' +str(h2))
+        return h2
+
 
     def move(self, move):
         if move == 'ml': #move left
