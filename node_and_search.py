@@ -7,6 +7,7 @@ Author: Tony Lindgren
 import queue
 from time import process_time
 from missionaries_and_cannibals import MissionariesAndCannibals
+from eight_puzzle import EightPuzzle
 
 class Node:
     '''
