@@ -32,7 +32,7 @@ def main():
     if solution:
         solution.state.pretty_print()
     else:
-        print("Pizdec")
+        print("Did not yield a solution")
 
 
 if __name__ == "__main__":

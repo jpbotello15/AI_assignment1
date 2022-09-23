@@ -301,7 +301,6 @@ class SearchAlgorithm:
                 if depth_limit <= curr_node.depth:
                     return None
                 if (frontier.get().item.state) not in self.visited:
-                    # bitch stops here
                     try: 
                         curr_node = frontier.get(False)
                     except Exception:
