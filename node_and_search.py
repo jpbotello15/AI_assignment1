@@ -22,6 +22,12 @@ class Node:
         self.depth = 0
         if parent:
             self.depth = parent.depth + 1 
+    
+    def __lt__(self,other):
+        return (self.cost < other.cost)
+
+    def __gt__(self,other):
+        return (self.cost < other.cost)
 
     def goal_state(self):
         return self.state.check_goal()
@@ -55,7 +61,7 @@ class Node:
                 childNode = Node(child, self.cost + 1, self, action)   
                 weight=EightPuzzle.heuristic1(childNode)   
                 #successors.put puts weight as a first value, and later it is extracted like a state of childNode as integer.             
-                successors.put(weight, childNode)
+                successors.put(childNode)
                 print(weight)
 
         return successors
