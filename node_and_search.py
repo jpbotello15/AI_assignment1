@@ -285,8 +285,10 @@ class SearchAlgorithm:
         frontier.put(self.start)
         stop = False
         self.visited = []
+        counter = -1
         while not stop:
 
+            counter += 1
             if frontier.empty():
                 return None
 
@@ -303,11 +305,15 @@ class SearchAlgorithm:
                 if (frontier.get().item.state) not in self.visited:
                     try: 
                         curr_node = frontier.get(False)
+                        #EightPuzzle.pretty_print(curr_node.item.state)
+                        #print('parent', curr_node)
                     except Exception:
                         curr_node = None
+                        print('exception', curr_node)
                     if curr_node:
                         curr_node = curr_node.item
                     else:
+                        #print('returned none')
                         return None
                     self.visited.append(curr_node.state.state)
                     self.counter += 1
@@ -322,7 +328,7 @@ class SearchAlgorithm:
                 if statistics:
                     branching_factor = self.counter ** (1 / curr_node.depth)
                     output = f"""
-                    Cannibals and Missionaries. Solution found
+                    Eight Puzzle. Solution found
                     Elapsed time (s): {time_stop - time_start}
                     Solution found at depth: {curr_node.depth}
                     Number of nodes explored: {self.counter}
@@ -332,7 +338,7 @@ class SearchAlgorithm:
                     print(output)
 
                     if FileSave == True:
-                        with open("results.txt", "a") as f:
+                        with open("task5check.txt", "a") as f:
                             f.write(output)
                 return curr_node
 
@@ -340,10 +346,12 @@ class SearchAlgorithm:
 
             while not successors.empty():
                 successor = successors.get()
-                priority = self.heuristic1(successor.state, verbose)
-                print("Potential successor", successor.state.state)
-                if not successor.state.state in self.visited:
-                    frontier.put(PrioritizedItem(priority, successor))
+                #print(counter, successor)
+                priority = (self.heuristic1(successor.state, verbose)) * counter
+                #print("Potential successor", successor.state.state)
+                #if not successor.state.state in self.visited:
+                frontier.put(PrioritizedItem(priority, successor))
+                    
 
     def heuristic1(self, state, verbose=False):
         global h1

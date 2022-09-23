@@ -13,8 +13,8 @@ from node_and_search import Node
 # init_state = [[0, 0], 'r', [3, 3]]
 # goal_state = [[3, 3], 'l', [0, 0]]
 
-init_state = [[1, 2, 3], [4, 5, 6], [7, 8, "e"]]
-goal_state = [["e", 1, 2], [3, 4, 5], [6, 7, 8]]
+init_state = [[1, 2, 3], [4, 5, 6], ["e", 7, 8]]
+goal_state = [[1, 2, 3], [7, "e", 6], [5, 4, 8]]
 
 
 def main():
@@ -28,7 +28,7 @@ def main():
 
     ep = EightPuzzle(init_state, goal_state)
     sa = SearchAlgorithm(ep)
-    solution = sa.greedy_search(depth_limit = 200, verbose=True, statistics=False, FileSave=False)
+    solution = sa.greedy_search(depth_limit = 200, verbose=False, statistics=True, FileSave=True)
     if solution:
         solution.state.pretty_print()
     else:
