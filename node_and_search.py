@@ -44,18 +44,33 @@ class Node:
                 successors.put(childNode)
         return successors
 
+    
+
+    #priority_successor PROBLEM IN THIS FUNCTION, 
+    def priority_successor(self):
+        successors = queue.PriorityQueue()
+        for action in self.state.action:                     
+            child = self.state.move(action)      
+            if child != None:                            
+                childNode = Node(child, self.cost + 1, self, action)   
+                weight=EightPuzzle.heuristic1(childNode)   
+                #successors.put puts weight as a first value, and later it is extracted like a state of childNode as integer.             
+                successors.put(weight, childNode)
+                print(weight)
+
+        return successors
+
     def pretty_print_solution(self, verbose=False):
         solution = []
         if verbose == False:
             print('Here is the list of moves:')
             solution.append(self.action)
             while (self.parent.action != None):
-                solution.append(self.parent.action)
+                solution.append(parent.action)
                 self = self.parent
             
             for i in reversed(solution):
                 print(i)
-
         else:
             print('Here is the list of moves and states:')
             solution.append(['Done!', self.state])
@@ -151,6 +166,7 @@ class SearchAlgorithm:
                     self.counter += 1
                 else:
                     print('whoops repeat')
+            EightPuzzle.pretty_print(curr_node.state)
             if curr_node.goal_state():
                 stop = True
                 time_stop = process_time()
@@ -213,4 +229,59 @@ class SearchAlgorithm:
                             write("Estimated effective branching factor:" + str(self.counter**(1/curr_node.depth)) + "\n \n")
                             file.close()
                     return curr_node        
-    
+
+    def greedy_search(self, depth_limit=None, verbose=False, statistics=False, FileSave=False):
+        time_start = process_time()
+        frontier = queue.Queue()
+        frontier.put(self.start)
+        stop = False
+        self.visited = []
+        while not stop:
+
+            if frontier.empty():
+                return None
+
+            if self.visited == []:
+                curr_node = frontier.get()
+                self.visited.append(curr_node.state)
+
+                if (depth_limit == curr_node.depth):
+                    return None
+
+            else:
+
+                if (depth_limit == curr_node.depth):
+                    return None
+                if (frontier.get().state) not in self.visited:
+                    curr_node = frontier.get()
+                    self.visited.append(curr_node.state)
+                    self.counter += 1
+                else:
+                    print('whoops repeat')
+            EightPuzzle.pretty_print(curr_node.state)
+            if curr_node.goal_state():
+                stop = True
+                time_stop = process_time()
+                if statistics == True:
+                    print("Cannibals and Missionaries. Solution found")
+                    print("Elapsed time (s):", time_stop - time_start)
+                    print("Solution found at depth:", curr_node.depth)
+                    print("Number of nodes explored:", self.counter)
+                    print("Cost of solution:", curr_node.depth)
+                    print("Estimated effective branching factor:", self.counter**(1/curr_node.depth))
+                    
+                    if FileSave == True:
+                        file = open("results.txt", "a")
+                        write=file.write
+                        write("Cannibals and Missionaries. Solution for DFS"  + "\n")
+                        write("Elapsed time (s):" + str(time_stop - time_start) + "\n")
+                        write("Solution found at depth:" + str(curr_node.depth) + "\n")
+                        write("Number of nodes explored:" + str(self.counter) + "\n")
+                        write("Cost of solution:" + str(curr_node.depth) + "\n")
+                        write("Estimated effective branching factor:" + str(self.counter**(1/curr_node.depth)) + "\n \n")
+                        file.close()
+                return curr_node        
+                        
+            successor = curr_node.priority_successor() 
+            while not successor.empty():
+                frontier.put(successor.get())

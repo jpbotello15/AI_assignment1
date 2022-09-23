@@ -7,12 +7,11 @@ from copy import deepcopy
 
 class EightPuzzle:
 
-    def __init__(self, initial_state, goal):
+    def __init__(self, initial_state, goal_state):
         self.state = initial_state
-        self.goal = goal
+        self.goal = goal_state
         self.action = ['ml','mr','mu','md']
-        self.h1 = 0
-        self.h2 = 0
+        global h2
             
     def check_goal(self):
         if self.state == self.goal:
@@ -20,16 +19,20 @@ class EightPuzzle:
         else:
             return False
 
+    h1 = 0
+    h2 = 0
+
     def heuristic1(self):
-        state = self.state
-        goal = self.goal
+        global h1
+        h1 = 0
+        state = self.state.state
         for i in range(0,len(state)):
             for z in range(0,len(state)):
-                if state[i][z] == goal[i][z]:
-                    self.h1 += 1
-        self.h1 = len(state)**2 - self.h1
-        print ('Heuristic_1: ' +str(self.h1))
-        return self.h1
+                if state[i][z] == self.state.goal[i][z]:
+                    h1 = h1 + 1
+        h1 = len(state)**2 - h1
+        print ('Heuristic_1: ' + str(h1))
+        return h1
 
     def heuristic2(self):
         state = self.state
