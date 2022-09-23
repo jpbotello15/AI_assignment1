@@ -33,3 +33,10 @@ Solution found at depth:33
 Number of nodes explored:7487
 Cost of solution:33
 Estimated effective branching factor:1.3103981390896
+
+Eight Puzzle. Solution for Greedy Search
+Elapsed time (s): 0.265625
+Solution found at depth: 12
+Number of nodes explored: 1741
+Cost of solution: 12
+Estimated effective branching factor: 1.8623725603933674
