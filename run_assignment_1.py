@@ -28,7 +28,7 @@ def main():
 
     ep = EightPuzzle(init_state, goal_state)
     sa = SearchAlgorithm(ep)
-    solution = sa.greedy_search(depth_limit = 10, verbose=True, statistics=False, FileSave=False)
+    solution = sa.greedy_search(depth_limit = 200, verbose=True, statistics=False, FileSave=False)
     if solution:
         solution.state.pretty_print()
     else:

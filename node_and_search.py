@@ -301,7 +301,15 @@ class SearchAlgorithm:
                 if depth_limit <= curr_node.depth:
                     return None
                 if (frontier.get().item.state) not in self.visited:
-                    curr_node = frontier.get().item
+                    # bitch stops here
+                    try: 
+                        curr_node = frontier.get(False)
+                    except Exception:
+                        curr_node = None
+                    if curr_node:
+                        curr_node = curr_node.item
+                    else:
+                        return None
                     self.visited.append(curr_node.state.state)
                     self.counter += 1
                 else:
@@ -333,20 +341,19 @@ class SearchAlgorithm:
 
             while not successors.empty():
                 successor = successors.get()
-                priority = self.heuristic1(successor.state)
+                priority = self.heuristic1(successor.state, verbose)
                 print("Potential successor", successor.state.state)
                 if not successor.state.state in self.visited:
                     frontier.put(PrioritizedItem(priority, successor))
 
-    def heuristic1(self, state):
+    def heuristic1(self, state, verbose=False):
         global h1
         h1 = 0
-        state = state.state
-        for i in range(0, len(state)):
-            for z in range(0, len(state)):
-                if state[i][z] == state.goal[i][z]:
+        for i in range(0, len(state.state)):
+            for z in range(0, len(state.state[0])):
+                if state.state[i][z] == state.goal[i][z]:
                     h1 = h1 + 1
         # h1 = len(state) ** 2 - h1
-        if self.verbose:
+        if verbose:
             print("Heuristic_1: " + str(h1))
         return h1
